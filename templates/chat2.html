@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+</head>
+<body>
+    <h1>Chat</h1>
+    <div id="chat-history">
+        {% if chat_history is not none %}
+            {% for chat_message in chat_history %}
+                <p><strong>User:</strong> {{ chat_message.user_question }}</p>
+                <p><strong>Bot:</strong> {{ chat_message.bot_answer }}</p>
+            {% endfor %}
+        {% else %}
+            <p>No chat history available.</p>
+        {% endif %}
+    </div>
+    <form action="{{ url_for('chat') }}" method="post">
+        <input type="text" name="question" placeholder="Enter your question">
+        <button type="submit">Send</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!--
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h3>Welcome, {{ username }}!</h3>
+    <h5>Your Questions and Answers:</h5>
+    <ul>
+        {% for qa in questions_and_answers %}
+            <li><strong>Question:</strong> {{ qa['question'] }} - <strong>Answer:</strong> {{ qa['answer'] }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Ask a New Question:</h2>
+    <form method="POST" action="/ask">
+        <label for="new_question">New Question:</label><br>
+        <input type="text" id="new_question" name="new_question" required><br>
+        
+        
+        <input type="submit" value="Submit Question">
+    </form>
+</body>
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .navbar {
+            background-color: #f0f0f0;
+            color: black;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h5 {
+            margin: 0;
+        }
+
+        .logout-button a {
+            padding: 10px;
+            background-color: #ff0000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-button a:hover {
+            background-color: #cc0000;
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-container {
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+            min-height: 670px;
+        }
+        
+        .chat-itemai {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            
+        }
+        
+        .chat-item {
+            padding: 20px;
+            background-color: #fff;
+            width: 80%;
+            margin: 0 auto;
+            
+        }
+        .chat-item:hover {
+            background-color: #f0f0f0;
+        }
+        center {
+
+            background-color: #f0f0f0;
+        }
+        .input-container {
+            background-color: #f0f0f0;
+        }
+        
+        input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    
+</head>
+<body>
+    <div class="navbar">
+        <h5>Welcome, {{ username }}!</h5>
+        <div class="logout-button">
+            <a href="/login">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="chat-container">
+            {% if questions_and_answers %}
+                {% for qa in questions_and_answers %}
+                    <div class="chat-itemai">
+                        <strong>You:</strong> {{ qa['question'] }}
+                    </div>
+                    <div class="chat-item">
+                        <strong>AI:</strong> {{ qa['answer'] }}
+                    </div>    
+                {% endfor %}
+            {% else %}
+                <div class="no-chat-message">
+                    <p>No chat</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="input-container">
+            <form method="POST" action="/ask">
+                <input type="text" id="new_question" name="new_question" placeholder="Enter your question" required>
+                <input type="submit" value="Ask">
+                
+            </form>
+            
+        </div>
+
+        <center>
+            <small>...</small>
+        </center>
+    </div>
+</body>
+</html>
+
+
+-->
+
+
+
+    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            position: relative; /* Needed for absolute positioning of loading indicator */
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #f0f0f0;
+            color: black;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999; /* Ensures it appears above other elements */
+        }
+
+        .navbar h5 {
+            margin: 0;
+        }
+
+        .logout-button a {
+            padding: 10px;
+            background-color: #bad4c1;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-button a:hover {
+            background-color: ;
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 800px; /* Set a fixed width */
+            margin: 0 auto;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+            position: relative; /* Needed for absolute positioning of loading indicator */
+        }
+        
+        .chat-container {
+            background-color: #f0f0f0;
+            padding: 30px;
+            border-radius: 5px;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+            min-height: 595px;
+        }
+        
+        .chat-itemai {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            
+        }
+        
+        .chat-item {
+            padding: 20px;
+            background-color: #fff;
+            width: 80%;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+        .chat-item:hover {
+            background-color: ;
+        }
+        center {
+
+            background-color: #f0f0f0;
+        }
+        .input-container {
+            background-color: #f0f0f0;
+        }
+        
+        input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Styles for loading indicator */
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .loading img {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h5> {{ username }}</h5>
+        <div class="logout-button">
+            <a href="/login">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="chat-container" id="chatContainer">
+            {% if questions_and_answers %}
+                {% for qa in questions_and_answers %}
+                    <div class="chat-itemai">
+                        <strong>You:</strong> {{ qa['question'] }}
+                    </div>
+                    <div class="chat-item">
+                        <strong>AI <br><hr> <br> </strong> <span id="aiAnswer{{ loop.index }}">{{ qa['answer'] }}</span>
+                    </div>    
+                    <script>
+                        var aiAnswer{{ loop.index }} = document.getElementById("aiAnswer{{ loop.index }}");
+                        var answerText{{ loop.index }} = aiAnswer{{ loop.index }}.innerHTML;
+                        // Regex to match a period followed by a numeric value
+                        var regex = /\.\s*(?=\d)/g;
+                        // Check if the answer text contains a period followed by a numeric value
+                        if (/\.\s*\d/.test(answerText{{ loop.index }})) {
+                            // Replace periods followed by a numeric value with a period and line break
+                            aiAnswer{{ loop.index }}.innerHTML = answerText{{ loop.index }}.replace(regex, ".<br> <br>");
+                        }
+                    </script>
+                {% endfor %}
+            {% else %}
+                <div class="no-chat-message">
+                    <p>No chat</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="input-container">
+            <form method="POST" action="/ask">
+                <input type="text" id="new_question" name="new_question" placeholder="Enter your question" required>
+                <input type="submit" value="Ask">
+            </form>
+        </div>
+
+        <center>
+            <small></small>
+        </center>
+    </div>
+
+    <script>
+        // Function to scroll chat container to the bottom
+        function scrollToBottom() {
+            // Get the chat container element
+            var chatContainer = document.getElementById("chatContainer");
+            // Scroll to the bottom of the chat container
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    
+        // Execute scrollToBottom function when the page is fully loaded
+        window.onload = scrollToBottom;
+    </script>
+
+</body>
+</html>
